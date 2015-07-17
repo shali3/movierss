@@ -6,7 +6,7 @@ import re
 import urllib2
 from collections import namedtuple
 
-logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.DEBUG)
 
 list_id_re = re.compile(ur'ls\d+')
 movie_id_re = re.compile(ur'<link>.*?(tt\d+).*?</link>')
@@ -72,6 +72,8 @@ args = parser.parse_args()
 
 if args.log:
     logHandler = TimedRotatingFileHandler(args.log, when="midnight", backupCount=5)
+    logFormatter = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s')
+    logHandler.setFormatter(logFormatter)
     logging.root.addHandler(logHandler)
 
 movies = []
