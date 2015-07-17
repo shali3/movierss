@@ -57,14 +57,14 @@ def get_movie_rss_items(movie, quality):
     return items
 
 
-
-parser = argparse.ArgumentParser(description='Turn an IMDB watch list(s) into a torrent rss feed')
+parser = argparse.ArgumentParser(prog='movierss', description='Turn an IMDB watch list(s) into a torrent rss feed')
 parser.add_argument('-l', '--list', type=imdb_list_id, action='append',
                     required=True, help='a link or ID of IMDB watchlist')
 parser.add_argument('-o', '--output', type=argparse.FileType('w'),
                     required=True, help='The RSS feed (XML file) that will be saved')
 parser.add_argument('-q', '--quality', choices=['all', '720p', '1080p', '3d'], default='1080p',
                     help='The desired quality of torrent')
+parser.add_argument('-v', '--version', action='version', version='1.0.0')
 
 args = parser.parse_args()
 movies = []
