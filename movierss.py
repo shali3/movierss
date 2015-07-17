@@ -1,11 +1,12 @@
 __author__ = 'ShaLi'
 import logging
+from logging.handlers import TimedRotatingFileHandler
 import argparse
 import re
 import urllib2
 from collections import namedtuple
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=logging.DEBUG)
 
 list_id_re = re.compile(ur'ls\d+')
 movie_id_re = re.compile(ur'<link>.*?(tt\d+).*?</link>')
@@ -64,9 +65,15 @@ parser.add_argument('-o', '--output', type=argparse.FileType('w'),
                     required=True, help='The RSS feed (XML file) that will be saved')
 parser.add_argument('-q', '--quality', choices=['all', '720p', '1080p', '3d'], default='1080p',
                     help='The desired quality of torrent')
-parser.add_argument('-v', '--version', action='version', version='1.0.0')
+parser.add_argument('-v', '--version', action='version', version='1.0.1')
+parser.add_argument('--log', help='Log file name. Rotate every midnight and keeps 5 backup files')
 
 args = parser.parse_args()
+
+if args.log:
+    logHandler = TimedRotatingFileHandler(args.log, when="midnight", backupCount=5)
+    logging.root.addHandler(logHandler)
+
 movies = []
 for l in args.list:
     movies.extend(get_watchlist(l))
