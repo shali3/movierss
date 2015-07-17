@@ -56,8 +56,6 @@ def get_movie_rss_items(movie, quality):
     logging.info('Found %d torrents for the movie %s', len(items), movie.name)
     return items
 
-# print(imdb_list_id('http://rss.imdb.com/list/ls074361632'))
-
 
 
 parser = argparse.ArgumentParser(description='Turn an IMDB watch list(s) into a torrent rss feed')
