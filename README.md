@@ -13,7 +13,7 @@ python movierss.py -l ls123456789 -l ls987654321 -o rss.xml -q 720p
 
 # Parameters
 * `-l OR --list` - Here you enter your IMDB watchlist id. This list should be public. You can use multiple list by entering this parameter multiple times.
-* `-o OR --output` - A path to an output file. Host this file however you like and feed it's URL to your torrent client. Personally I use the Dropbox ***Public*** folder.
+* `-o OR --output` - A path to an output file. Host this file however you like and feed it's URL to your torrent client. Personally I use the Dropbox, just drop the XML file there and generate a share link for it and use the [?raw=1 hack](https://www.dropbox.com/en/help/201) to get a valid link for your torrent client.
 * `-q OR --quality` - The desired quality you want. Default is 1080p.
 * `--log` - Optional. If you specify a log file name in here the logs will be written there as well.
 
