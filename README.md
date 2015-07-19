@@ -11,6 +11,15 @@ To generate RSS from multiple watchlists in 720p:
 python movierss.py -l ls123456789 -l ls987654321 -o rss.xml -q 720p
 ```
 
+# How to get my watchlist ID
+Just go to (IMDB.com)[http://imdb.com] and login. After you are logged in paste the following code in the address bar.
+
+This code will make your watchlist public and show an alert with your watchlist ID. You can checkout the full code in the file fetch_watchlist_id.js in the repository.
+
+```
+javascript:$.get("/list/watchlist",function(t){var i=$(t).find(".export").html().match(/ls\d+/g);$.post("/list/_ajax/edit","public=YES&action=privacy&list_id="+i).done(function(){alert("Watchlist ID: "+i)})});
+```
+
 # Parameters
 * `-l OR --list` - Here you enter your IMDB watchlist id. This list should be public. You can use multiple list by entering this parameter multiple times.
 * `-o OR --output` - A path to an output file. Host this file however you like and feed it's URL to your torrent client. Personally I use the Dropbox, just drop the XML file there and generate a share link for it and use the [?raw=1 hack](https://www.dropbox.com/en/help/201) to get a valid link for your torrent client.
