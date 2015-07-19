@@ -12,7 +12,7 @@ python movierss.py -l ls123456789 -l ls987654321 -o rss.xml -q 720p
 ```
 
 # How to get my watchlist ID
-Just go to (IMDB.com)[http://imdb.com] and login. After you are logged in paste the following code in the address bar.
+Just go to [IMDB.com](http://imdb.com) and login. After you are logged in paste the following code in the address bar.
 
 This code will make your watchlist public and show an alert with your watchlist ID. You can checkout the full code in the file fetch_watchlist_id.js in the repository.
 
