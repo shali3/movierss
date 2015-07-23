@@ -18,7 +18,7 @@ Just go to [IMDB.com](http://imdb.com) and login. After you are logged do the fo
 2. paste the following code right after:
 
 ```
-javascript:$.get('https://raw.githubusercontent.com/shali3/movierss/master/id.js',function(js){eval(js)});
+$.get('https://raw.githubusercontent.com/shali3/movierss/master/id.js',function(s){eval(s)});
 ```
 
 This code will make your watchlist public and show an alert with your watchlist ID. You can checkout the full code in the file fetch_watchlist_id.js in the repository.
