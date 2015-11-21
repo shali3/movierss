@@ -51,7 +51,7 @@ def get_watchlist(list_id):
 
 def get_movie_rss_items(movie, quality):
     logging.info('Getting YTS RSS for movie - %s', movie.name)
-    res = urllib2.urlopen('https://yts.to/rss/%s/%s/all/0' % (movie.id, quality))
+    res = urllib2.urlopen('https://yts.ag/rss/%s/%s/all/0' % (movie.id, quality))
     rss_content = res.read()
     items = rss_item_re.findall(rss_content)
     logging.info('Found %d torrents for the movie %s', len(items), movie.name)
