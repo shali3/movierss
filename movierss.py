@@ -1,23 +1,24 @@
 __author__ = 'ShaLi'
-import logging
-from logging.handlers import TimedRotatingFileHandler
 import argparse
+import json
+import logging
 import re
 import urllib2
 from collections import namedtuple
+from logging.handlers import TimedRotatingFileHandler
 
 logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.DEBUG)
 
 list_id_re = re.compile(ur'ls\d+')
 movie_id_re = re.compile(ur'<link>.*?(tt\d+).*?</link>')
 movie_name_re = re.compile(ur'<title>(.*?)</title>')
-rss_item_re = re.compile(ur'<item>.*?</item>')
 rss_header = '<?xml version="1.0" encoding="UTF-8"?>' \
              '<rss version="2.0">' \
              '<channel>' \
              '<title>YTS RSS</title>' \
              '<description>Most popular Torrents in the smallest file size RSS Feed</description>' \
              '<language>en-us</language>';
+rss_item_format = '<item><title>%s</title><enclosure url="%s" type="application/x-bittorrent" length="10000" /></item>'
 rss_footer = '</channel></rss>'
 Movie = namedtuple('Movie', ['id', 'name'])
 
@@ -51,11 +52,19 @@ def get_watchlist(list_id):
 
 def get_movie_rss_items(movie, quality):
     logging.info('Getting YTS RSS for movie - %s', movie.name)
-    res = urllib2.urlopen('https://yts.ag/rss/%s/%s/all/0' % (movie.id, quality))
-    rss_content = res.read()
-    items = rss_item_re.findall(rss_content)
+    url = 'https://yts.ag/api/v2/list_movies.json?query_term=%s&quality=%s' % (movie.id, quality)
+    req = urllib2.Request(url, headers={'User-Agent': "Magic Browser"})
+    res = urllib2.urlopen(req)
+    res_json = json.loads(res.read())
+    items = res_json['data'].get('movies', [])
     logging.info('Found %d torrents for the movie %s', len(items), movie.name)
-    return items
+    if len(items) > 0:
+        torrent_url = ''
+        for torrent in items[0]['torrents']:
+            if torrent['quality'] == quality:
+                torrent_url = torrent['url']
+        return rss_item_format % (items[0]['title'], torrent_url)
+    return ''
 
 
 parser = argparse.ArgumentParser(prog='movierss', description='Turn an IMDB watch list(s) into a torrent rss feed')
